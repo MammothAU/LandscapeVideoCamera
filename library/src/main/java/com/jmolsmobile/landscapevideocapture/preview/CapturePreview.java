@@ -16,9 +16,14 @@
 
 package com.jmolsmobile.landscapevideocapture.preview;
 
+import android.app.Activity;
+import android.content.res.Configuration;
+import android.view.Display;
 import android.view.SurfaceHolder;
 
 import com.jmolsmobile.landscapevideocapture.CLog;
+import com.jmolsmobile.landscapevideocapture.RotationHelper;
+import com.jmolsmobile.landscapevideocapture.VideoCaptureActivity;
 import com.jmolsmobile.landscapevideocapture.camera.CameraWrapper;
 
 import java.io.IOException;
@@ -28,11 +33,13 @@ public class CapturePreview implements SurfaceHolder.Callback {
 	private boolean							mPreviewRunning	= false;
 	private final CapturePreviewInterface	mInterface;
 	public final CameraWrapper				mCameraWrapper;
+	public final Activity					mActivity;
 
 	public CapturePreview(CapturePreviewInterface capturePreviewInterface, CameraWrapper cameraWrapper,
-			SurfaceHolder holder) {
+			SurfaceHolder holder, Activity activity) {
 		mInterface = capturePreviewInterface;
 		mCameraWrapper = cameraWrapper;
+		mActivity = activity;
 
 		initalizeSurfaceHolder(holder);
 	}
@@ -59,7 +66,11 @@ public class CapturePreview implements SurfaceHolder.Callback {
 		}
 
 		try {
-			mCameraWrapper.configureForPreview(width, height);
+			int orientation =
+					RotationHelper.DisplayRotationToDegrees(mActivity.getWindowManager().getDefaultDisplay().getRotation());
+			CLog.d(CLog.PREVIEW, "Got orientation " + orientation);
+
+			mCameraWrapper.configureForPreview(width, height, orientation);
 			CLog.d(CLog.PREVIEW, "Configured camera for preview in surface of " + width + " by " + height);
 		} catch (final RuntimeException e) {
 			e.printStackTrace();

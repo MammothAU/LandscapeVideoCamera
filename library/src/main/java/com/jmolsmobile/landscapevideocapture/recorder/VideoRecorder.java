@@ -16,6 +16,7 @@
 
 package com.jmolsmobile.landscapevideocapture.recorder;
 
+import android.content.res.Configuration;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnInfoListener;
@@ -23,6 +24,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 
 import com.jmolsmobile.landscapevideocapture.CLog;
+import com.jmolsmobile.landscapevideocapture.RotationHelper;
 import com.jmolsmobile.landscapevideocapture.VideoFile;
 import com.jmolsmobile.landscapevideocapture.camera.CameraWrapper;
 import com.jmolsmobile.landscapevideocapture.camera.OpenCameraException;
@@ -67,7 +69,7 @@ public class VideoRecorder implements OnInfoListener, CapturePreviewInterface {
             return;
         }
 
-        mVideoCapturePreview = new CapturePreview(this, mCameraWrapper, previewHolder);
+        mVideoCapturePreview = new CapturePreview(this, mCameraWrapper, previewHolder, mRecorderInterface.getActivity());
     }
 
     public void toggleRecording() throws AlreadyUsedException {
@@ -120,6 +122,11 @@ public class VideoRecorder implements OnInfoListener, CapturePreviewInterface {
         }
 
         mRecorder = new MediaRecorder();
+        int rotation = RotationHelper.DisplayRotationToDegrees(
+                mRecorderInterface.getActivity().getWindowManager().getDefaultDisplay().getRotation()
+        );
+        CLog.d(CLog.RECORDER, "MediaRecorder got rotation " + rotation);
+        mRecorder.setOrientationHint(rotation);
         configureMediaRecorder(getMediaRecorder(), mCameraWrapper.getCamera());
 
         CLog.d(CLog.RECORDER, "MediaRecorder successfully initialized");

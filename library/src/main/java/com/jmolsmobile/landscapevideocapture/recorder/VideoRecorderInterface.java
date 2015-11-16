@@ -16,6 +16,8 @@
 
 package com.jmolsmobile.landscapevideocapture.recorder;
 
+import android.app.Activity;
+
 public interface VideoRecorderInterface {
 
 	public abstract void onRecordingStopped(String message);
@@ -25,5 +27,7 @@ public interface VideoRecorderInterface {
 	public abstract void onRecordingSuccess();
 
 	public abstract void onRecordingFailed(String message);
+
+	public abstract Activity getActivity();
 
 }

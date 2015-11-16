@@ -105,11 +105,13 @@ public class CameraWrapper {
         return returnProfile;
     }
 
-    public void configureForPreview(int viewWidth, int viewHeight) {
+    public void configureForPreview(int viewWidth, int viewHeight, int orientation) {
         final Parameters params = getCameraParametersFromSystem();
         final Size previewSize = getOptimalSize(params.getSupportedPreviewSizes(), viewWidth, viewHeight);
         params.setPreviewSize(previewSize.width, previewSize.height);
         params.setPreviewFormat(ImageFormat.NV21);
+        CLog.d(CLog.CAMERA, "Setting camera orientation to: " + orientation);
+        mCamera.setDisplayOrientation(orientation);
         mCamera.setParameters(params);
         CLog.d(CLog.CAMERA, "Preview size: " + previewSize.width + "x" + previewSize.height);
     }

@@ -144,6 +144,9 @@ public class VideoCaptureActivity extends Activity implements RecordingButtonInt
         finishError(message);
     }
 
+    @Override
+    public Activity getActivity() { return this; }
+
     private void finishCompleted() {
         final Intent result = new Intent();
         result.putExtra(EXTRA_OUTPUT_FILENAME, mVideoFile.getFullPath());
