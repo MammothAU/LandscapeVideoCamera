@@ -150,6 +150,8 @@ public class VideoRecorder implements OnInfoListener, CapturePreviewInterface {
         baseProfile.audioCodec = mCaptureConfiguration.getAudioEncoder();
         baseProfile.videoCodec = mCaptureConfiguration.getVideoEncoder();
 
+        CLog.d(CLog.RECORDER, "configureMediaRecorder: profile width: " + baseProfile.videoFrameWidth + ", height: " + baseProfile.videoFrameHeight + " " + baseProfile);
+
         recorder.setProfile(baseProfile);
         recorder.setMaxDuration(mCaptureConfiguration.getMaxCaptureDuration());
         recorder.setOutputFile(mVideoFile.getFullPath());

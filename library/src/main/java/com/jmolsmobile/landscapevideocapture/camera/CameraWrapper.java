@@ -87,7 +87,7 @@ public class CameraWrapper {
             CLog.e(CLog.CAMERA, "Failed to find supported recording size - falling back to requested: " + width + "x" + height);
             return new RecordingSize(width, height);
         }
-        CLog.d(CLog.CAMERA, "Recording size: " + recordingSize.width + "x" + recordingSize.height);
+        CLog.d(CLog.CAMERA, "OptimalSize for " + width + "x" + height + " is recording size: " + recordingSize.width + "x" + recordingSize.height);
         return new RecordingSize(recordingSize.width, recordingSize.height);
     }
 
@@ -181,9 +181,13 @@ public class CameraWrapper {
      */
     public Camera.Size getOptimalSize(List<Camera.Size> sizes, int w, int h) {
         // Use a very small tolerance because we want an exact match.
-        final double ASPECT_TOLERANCE = 0.1;
+        final double ASPECT_TOLERANCE = 0.12;
         final double targetRatio = (double) w / h;
         if (sizes == null) return null;
+
+        for (final Camera.Size size : sizes) {
+            CLog.e(CLog.CAMERA, "Available recording size: " + size.width + "x" + size.height + " = aspect " + ((double) size.width / size.height));
+        }
 
         Camera.Size optimalSize = null;
 
