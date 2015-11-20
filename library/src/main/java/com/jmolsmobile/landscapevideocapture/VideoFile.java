@@ -31,14 +31,16 @@ public class VideoFile {
 	private static final String	DEFAULT_EXTENSION	= ".mp4";
 
 	private final String		mFilename;
+	private final File		mPath;
 	private Date				mDate;
 
-	public VideoFile(String filename) {
+	public VideoFile(File path, String filename) {
 		this.mFilename = filename;
+		this.mPath = path;
 	}
 
-	public VideoFile(String filename, Date date) {
-		this(filename);
+	public VideoFile(File path, String filename, Date date) {
+		this(path, filename);
 		this.mDate = date;
 	}
 
@@ -50,7 +52,7 @@ public class VideoFile {
 		final String filename = generateFilename();
 		if (filename.contains(DIRECTORY_SEPARATOR)) return new File(filename);
 
-		final File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
+		final File path = mPath; // FolderPath(System.Environment.SpecialFolder.Personal); //Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
 		path.mkdirs();
 		return new File(path, generateFilename());
 	}

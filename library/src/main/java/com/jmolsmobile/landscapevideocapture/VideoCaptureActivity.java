@@ -198,9 +198,9 @@ public class VideoCaptureActivity extends Activity implements RecordingButtonInt
     protected VideoFile generateOutputFile(Bundle savedInstanceState) {
         VideoFile returnFile = null;
         if (savedInstanceState != null) {
-            returnFile = new VideoFile(savedInstanceState.getString(SAVED_OUTPUT_FILENAME));
+            returnFile = new VideoFile(getCacheDir(), savedInstanceState.getString(SAVED_OUTPUT_FILENAME));
         } else {
-            returnFile = new VideoFile(this.getIntent().getStringExtra(EXTRA_OUTPUT_FILENAME));
+            returnFile = new VideoFile(getCacheDir(), this.getIntent().getStringExtra(EXTRA_OUTPUT_FILENAME));
         }
         // TODO: add checks to see if outputfile is writeable
         return returnFile;
